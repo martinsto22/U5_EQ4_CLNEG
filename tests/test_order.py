@@ -30,3 +30,12 @@ def test_cannot_confirm_twice():
     order.confirm()
     with pytest.raises(ValueError, match="already confirmed"):
         order.confirm()
+
+def test_regular_customer_200_no_discount():
+    o = Order(200)
+    assert o.confirm() == 200
+    assert o.discount == 0
+
+
+
+    
