@@ -25,3 +25,19 @@ def test_known_risk_rejected_payment_leaves_order_confirmed():
     with pytest.raises(RuntimeError):
         OrderService(gateway).checkout(order)
     assert order.status == "CONFIRMED"  
+
+
+def test_gateway_rejected_vip_200():
+    gateway = Mock()
+    gateway.charge.return_value = False
+    order = Order(200, vip=True)
+    with pytest.raises(RuntimeError, match="payment rejected"):
+        OrderService(gateway).checkout(order)
+    gateway.charge.assert_called_once_with(170)
+
+
+
+    
+
+
+
